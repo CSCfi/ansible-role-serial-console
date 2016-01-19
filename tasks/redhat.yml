@@ -1,0 +1,8 @@
+ - name : grubconf - enable serial output for grub and kernel options
+   lineinfile: dest=/etc/default/grub state=absent regexp='rhgb quiet$'
+   lineinfile: dest=/etc/default/grub line:GRUB_TERMINAL="serial"
+   lineinfile: dest=/etc/default/grub line:GRUB_SERIAL_COMMAND="serial --speed={{ serialspeed }} --unit=0 --word=8 --parity=no --stop=1"
+   lineinfile: dest=/etc/default/grub line:GRUB_CMDLINE_LINUX_DEFAULT="console=tty0 console={{ serialport }},{{ serialspeed }}"
+
+
+
