@@ -1,14 +1,26 @@
-# vim:ft=ansible:
- - name: grubconf - enable serial output for grub and kernel options
-   lineinfile: dest=/etc/default/grub state=absent regexp='rhgb quiet$'
-   lineinfile: dest=/etc/default/grub line:GRUB_TERMINAL="serial"
-   lineinfile: dest=/etc/default/grub line:GRUB_SERIAL_COMMAND="serial --speed={{ serialspeed }} --unit={{ serialport }} --word=8 --parity=no --stop=1"
-   lineinfile: dest=/etc/default/grub regexp="ttyS" state=absent
-   lineinfile: dest=/etc/default/grub line:GRUB_CMDLINE_LINUX_DEFAULT="console=tty0 console={{ serialport }},{{ serialspeed }}"
+---
 
-# 
+ - name: grubconf - enable serial output for grub and kernel options
+   lineinfile: dest=/etc/default/grub
+        state=absent
+        regexp='rhgb quiet$'
+
+ - name: grub_terminal to serial
+   lineinfile: dest=/etc/default/grub
+        regexp='^GRUB_TERMINAL=serial$'
+        line='GRUB_TERMINAL=serial'
+
+ - name: serial_command
+   lineinfile: dest=/etc/default/grub
+        regexp='^GRUB_SERIAL_COMMAND="serial --speed={{ serialspeed }} --unit={{ serialunit }} --word=8 --parity=no --stop=1"$'
+        line='GRUB_SERIAL_COMMAND="serial --speed={{ serialspeed }} --unit={{ serialunit }} --word=8 --parity=no --stop=1"'
+
+ - name: linux cmdline
+   lineinfile: dest=/etc/default/grub
+        regexp='^GRUB_CMDLINE_LINUX_DEFAULT="console=tty0 console={{ serialport }},{{ serialspeed }}"$'
+        line='GRUB_CMDLINE_LINUX_DEFAULT="console=tty0 console={{ serialport }},{{ serialspeed }}"'
+   register: reg_hp_serial_lines
+
  - name: update grub.cfg
    command: grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg 
-
-
-
+   when: reg_hp_serial_lines.changed

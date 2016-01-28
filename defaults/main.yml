@@ -1,4 +1,6 @@
 ---
 # defaults file for ansible-role-hp-serial
+# serialunit is the same number as at the end of serialport
+serialunit: 0
 serialport: ttyS0
 serialspeed: 115200
