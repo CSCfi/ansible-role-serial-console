@@ -1,4 +1,4 @@
-Role Name
+ansible-role-hp-serial
 =========
 
 Add serial console output for the grub and kernel boot options (ttyS0,115200)
@@ -6,17 +6,34 @@ Add serial console output for the grub and kernel boot options (ttyS0,115200)
 Requirements
 ------------
 
-ansible-role-hp-spp contains tools, hponcfg for changing iLO settings and conrep for BIOS
+ansible-role-hp-spp contains tools, hponcfg for changing iLO settings and conrep for BIOS.
+
+Changes on an HP XL450 (SL4510 Apollo):
+
+iLO4 changes:
+ - set Serial Command Line Interface to: 115200
+
+BIOS changes (done with conrep, installed by ansible-role-hp-spp):
+
+<pre>
+  <Section name="System_COMA" helptext="Settings for UART 1 on systems that support it.">COM2</
+Section>
+  <Section name="System_COMA_IRQ" helptext="Settings for UART 1 on systems that support it.">IR
+Q3</Section>
+
+  <Section name="System_Virtual_Serial_Port" helptext="Virtual Serial Port Settings for systems that support it.">COM1</Section>
+  <Section name="System_Virtual_Serial_Port_IRQ" helptext="Virtual Serial Port IRQ Settings for systems that support it.">IRQ4</Section>
+</pre>
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+
+see defaults/main.yml
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
 Example Playbook
 ----------------
@@ -25,7 +42,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: username.rolename, x: 42 }
+         - { role: ansible-role-hp-serial }
 
 License
 -------
