@@ -25,6 +25,8 @@ Q3</Section>
   <Section name="System_Virtual_Serial_Port_IRQ" helptext="Virtual Serial Port IRQ Settings for systems that support it.">IRQ4</Section>
 </pre>
 
+A reboot and iLO reset is needed.
+
 Role Variables
 --------------
 
