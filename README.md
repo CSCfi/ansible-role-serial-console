@@ -1,4 +1,4 @@
-ansible-role-hp-serial
+ansible-role-serial
 =========
 
 Add serial console output for the grub and kernel boot options (ttyS0,115200)
@@ -6,7 +6,7 @@ Add serial console output for the grub and kernel boot options (ttyS0,115200)
 Requirements
 ------------
 
-*HP*
+**HP**
 
 ansible-role-hp-spp contains tools, hponcfg for changing iLO settings and conrep for BIOS.
 
@@ -17,19 +17,14 @@ iLO4 changes:
 
 BIOS changes (done with conrep, installed by ansible-role-hp-spp):
 
-<pre>
-  <Section name="System_COMA" helptext="Settings for UART 1 on systems that support it.">COM2</
-Section>
-  <Section name="System_COMA_IRQ" helptext="Settings for UART 1 on systems that support it.">IR
-Q3</Section>
-
-  <Section name="System_Virtual_Serial_Port" helptext="Virtual Serial Port Settings for systems that support it.">COM1</Section>
-  <Section name="System_Virtual_Serial_Port_IRQ" helptext="Virtual Serial Port IRQ Settings for systems that support it.">IRQ4</Section>
-</pre>
+    <Section name="System_COMA" helptext="Settings for UART 1 on systems that support it.">COM2</Section>
+    <Section name="System_COMA_IRQ" helptext="Settings for UART 1 on systems that support it.">IRQ3</Section>
+    <Section name="System_Virtual_Serial_Port" helptext="Virtual Serial Port Settings for systems that support it.">COM1</Section>
+    <Section name="System_Virtual_Serial_Port_IRQ" helptext="Virtual Serial Port IRQ Settings for systems that support it.">IRQ4</Section>
 
 A reboot and iLO reset is needed.
 
-*DELL*
+**DELL**
 
 This role also works on Dell servers. No changes needed in BIOS/iDRAC for an R430 to make this work:
 
