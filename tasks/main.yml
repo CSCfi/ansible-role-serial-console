@@ -5,4 +5,4 @@
     when: ansible_os_family == "RedHat" and ansible_system_vendor == "HP"
 
   - include: redhat.yml
-    when: ansible_os_family == "RedHat" and ansible_system_vendor == "Dell"
+    when: ansible_os_family == "RedHat" and ansible_system_vendor == "Dell Inc."
