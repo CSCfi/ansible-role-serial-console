@@ -26,11 +26,21 @@ A reboot and iLO reset is needed.
 
 **DELL**
 
-This role also works on Dell servers. No changes needed in BIOS/iDRAC for an R430 to make this work:
+This role also works on Dell servers.
 
 <pre>
 ipmitool -H host.example.com -e ? -U user -P password -I lanplus sol activate
 </pre>
+
+Settings that worked on a R430 iDRAC8:
+ - iDRAC Settings
+  - Network
+   - Enable IPMI over LAN
+  - Serial Over LAN
+   - Enable
+   - Baud Rate: 115.2 kbps
+   - Redirect Enabled
+
 
 Role Variables
 --------------
