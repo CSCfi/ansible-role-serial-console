@@ -6,6 +6,8 @@ Add serial console output for the grub and kernel boot options (ttyS0,115200)
 Requirements
 ------------
 
+*HP*
+
 ansible-role-hp-spp contains tools, hponcfg for changing iLO settings and conrep for BIOS.
 
 Changes on an HP XL450 (SL4510 Apollo):
@@ -26,6 +28,14 @@ Q3</Section>
 </pre>
 
 A reboot and iLO reset is needed.
+
+*DELL*
+
+This role also works on Dell servers. No changes needed in BIOS/iDRAC for an R430 to make this work:
+
+<pre>
+ipmitool -H host.example.com -e ? -U user -P password -I lanplus sol activate
+</pre>
 
 Role Variables
 --------------
