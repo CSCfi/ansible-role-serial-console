@@ -1,22 +1,22 @@
 ---
 
  - name: grubconf - enable serial output for grub and kernel options
-   lineinfile: dest=/etc/default/grub
+   lineinfile: dest="{{ serial_grub_defaults }}"
         state=absent
         regexp='rhgb quiet$'
 
  - name: grub_terminal to serial
-   lineinfile: dest=/etc/default/grub
+   lineinfile: dest="{{ serial_grub_defaults }}"
         regexp='^GRUB_TERMINAL=console serial$'
         line='GRUB_TERMINAL=console serial'
 
  - name: serial_command
-   lineinfile: dest=/etc/default/grub
+   lineinfile: dest="{{ serial_grub_defaults }}"
         regexp='^GRUB_SERIAL_COMMAND="serial --speed={{ serialspeed }} --unit={{ serialunit }} --word=8 --parity=no --stop=1"$'
         line='GRUB_SERIAL_COMMAND="serial --speed={{ serialspeed }} --unit={{ serialunit }} --word=8 --parity=no --stop=1"'
 
  - name: linux cmdline
-   lineinfile: dest=/etc/default/grub
+   lineinfile: dest="{{ serial_grub_defaults }}"
         regexp='^GRUB_CMDLINE_LINUX_DEFAULT="console=tty0 console={{ serialport }},{{ serialspeed }}"$'
         line='GRUB_CMDLINE_LINUX_DEFAULT="console=tty0 console={{ serialport }},{{ serialspeed }}"'
    register: reg_hp_serial_lines
