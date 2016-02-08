@@ -21,6 +21,17 @@
         line='GRUB_CMDLINE_LINUX_DEFAULT="console=tty0 console={{ serialport }},{{ serialspeed }}"'
    register: reg_hp_serial_lines
 
- - name: update grub.cfg
-   command: grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg 
-   when: reg_hp_serial_lines.changed
+ - name: check if we are using UEFI
+   stat: path={{ serial_efi_path }}
+   register: reg_serial_efi_path
+   always_run: True
+
+ - debug: var=reg_serial_efi_path
+
+ - name: update EFI grub.cfg
+   command: grub2-mkconfig -o {{ serial_efi_grub_cfg }}
+   when: reg_hp_serial_lines.changed and reg_serial_efi_path.stat.isdir
+
+ - name: update BIOS grub.cfg
+   command: grub2-mkconfig -o {{ serial_bios_grub_cfg }}
+   when: reg_hp_serial_lines.changed and reg_serial_efi_path.stat.isdir == False

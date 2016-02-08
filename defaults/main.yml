@@ -4,3 +4,6 @@
 serialunit: 0
 serialport: ttyS0
 serialspeed: 115200
+serial_efi_grub_cfg: "/boot/efi/EFI/centos/grub.cfg"
+serial_bios_grub_cfg: "/boot/grub2/grub.cfg"
+serial_efi_path: "/sys/firmware/efi"
