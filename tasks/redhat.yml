@@ -4,16 +4,19 @@
    lineinfile: dest="{{ serial_grub_defaults }}"
         state=absent
         regexp='rhgb quiet$'
+   register: reg_hp_serial_rhgb
 
  - name: grub_terminal to serial
    lineinfile: dest="{{ serial_grub_defaults }}"
         regexp='^GRUB_TERMINAL=.*$'
         line='GRUB_TERMINAL="{{ serial_grub_terminal }}"'
+   register: reg_hp_serial_terminal
 
  - name: serial_command
    lineinfile: dest="{{ serial_grub_defaults }}"
         regexp='^GRUB_SERIAL_COMMAND="serial --speed={{ serialspeed }} --unit={{ serialunit }} --word=8 --parity=no --stop=1"$'
         line='GRUB_SERIAL_COMMAND="serial --speed={{ serialspeed }} --unit={{ serialunit }} --word=8 --parity=no --stop=1"'
+   register: reg_hp_serial_command
 
  - name: linux cmdline
    lineinfile: dest="{{ serial_grub_defaults }}"
@@ -30,8 +33,8 @@
 
  - name: update EFI grub.cfg
    command: grub2-mkconfig -o {{ serial_efi_grub_cfg }}
-   when: reg_hp_serial_lines.changed and reg_serial_efi_path.stat.isdir is defined and reg_serial_efi_path.stat.isdir
+   when: reg_hp_serial_lines.changed or reg_hp_serial_command.changed or reg_hp_serial_terminal.changed or reg_hp_serial_rhgb.changed and reg_serial_efi_path.stat.isdir is defined and reg_serial_efi_path.stat.isdir
 
  - name: update BIOS grub.cfg
    command: grub2-mkconfig -o {{ serial_bios_grub_cfg }}
-   when: reg_hp_serial_lines.changed and reg_serial_efi_path.stat.isdir is defined reg_serial_efi_path.stat.isdir == False
+   when: reg_hp_serial_lines.changed or reg_hp_serial_command.changed or reg_hp_serial_terminal.changed or reg_hp_serial_rhgb.changed and reg_serial_efi_path.stat.isdir is defined and reg_serial_efi_path.stat.isdir == False
