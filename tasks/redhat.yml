@@ -7,8 +7,8 @@
 
  - name: grub_terminal to serial
    lineinfile: dest=/etc/default/grub
-        regexp='^GRUB_TERMINAL=serial$'
-        line='GRUB_TERMINAL=serial'
+        regexp='^GRUB_TERMINAL=console serial$'
+        line='GRUB_TERMINAL=console serial'
 
  - name: serial_command
    lineinfile: dest=/etc/default/grub
