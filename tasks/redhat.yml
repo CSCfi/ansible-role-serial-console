@@ -6,7 +6,7 @@
         regexp='rhgb quiet$'
    register: reg_hp_serial_rhgb
 
- - name: grub_terminal to serial
+ - name: lineinfile grub_terminal
    lineinfile: dest="{{ serial_grub_defaults }}"
         regexp='^GRUB_TERMINAL=.*$'
         line='GRUB_TERMINAL="{{ serial_grub_terminal }}"'
