@@ -27,7 +27,7 @@
  - name: check if we are using UEFI
    stat: path={{ serial_efi_path }}
    register: reg_serial_efi_path
-   check_mode: yes
+   check_mode: no
 
  - debug: var=reg_serial_efi_path
 
