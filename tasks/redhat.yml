@@ -1,27 +1,31 @@
 ---
 
  - name: grubconf - enable serial output for grub and kernel options
-   lineinfile: dest="{{ serial_grub_defaults }}"
-        state=absent
-        regexp='rhgb quiet$'
+   lineinfile: 
+        dest: "{{ serial_grub_defaults }}"
+        state: absent
+        regexp: 'rhgb quiet$'
    register: reg_hp_serial_rhgb
 
  - name: lineinfile grub_terminal
-   lineinfile: dest="{{ serial_grub_defaults }}"
-        regexp='^GRUB_TERMINAL=.*$'
-        line='GRUB_TERMINAL="{{ serial_grub_terminal }}"'
+   lineinfile: 
+        dest: "{{ serial_grub_defaults }}"
+        regexp: '^GRUB_TERMINAL=.*$'
+        line: 'GRUB_TERMINAL="{{ serial_grub_terminal }}"'
    register: reg_hp_serial_terminal
 
  - name: serial_command
-   lineinfile: dest="{{ serial_grub_defaults }}"
-        regexp='^GRUB_SERIAL_COMMAND="serial --speed={{ serialspeed }} --unit={{ serialunit }} --word=8 --parity=no --stop=1"$'
-        line='GRUB_SERIAL_COMMAND="serial --speed={{ serialspeed }} --unit={{ serialunit }} --word=8 --parity=no --stop=1"'
+   lineinfile: 
+        dest: "{{ serial_grub_defaults }}"
+        regexp: '^GRUB_SERIAL_COMMAND="serial --speed={{ serialspeed }} --unit={{ serialunit }} --word=8 --parity=no --stop=1"$'
+        line: 'GRUB_SERIAL_COMMAND="serial --speed={{ serialspeed }} --unit={{ serialunit }} --word=8 --parity=no --stop=1"'
    register: reg_hp_serial_command
 
  - name: linux cmdline
-   lineinfile: dest="{{ serial_grub_defaults }}"
-        regexp='^GRUB_CMDLINE_LINUX_DEFAULT="console=tty0 console={{ serialport }},{{ serialspeed }}"$'
-        line='GRUB_CMDLINE_LINUX_DEFAULT="console=tty0 console={{ serialport }},{{ serialspeed }}"'
+   lineinfile: 
+        dest: "{{ serial_grub_defaults }}"
+        regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="console=tty0 console={{ serialport }},{{ serialspeed }}"$'
+        line: 'GRUB_CMDLINE_LINUX_DEFAULT="console=tty0 console={{ serialport }},{{ serialspeed }}"'
    register: reg_hp_serial_lines
 
  - name: check if we are using UEFI
@@ -38,3 +42,4 @@
  - name: update BIOS grub.cfg
    command: grub2-mkconfig -o {{ serial_bios_grub_cfg }}
    when: (reg_hp_serial_lines.changed or reg_hp_serial_command.changed or reg_hp_serial_terminal.changed or reg_hp_serial_rhgb.changed) and (reg_serial_efi_path.stat.isdir is not defined)
+
